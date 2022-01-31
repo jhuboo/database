@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define COLUMN_USERNAME_SIZE 32
+#define COLUMN_EMAIL_SIZE 255
+
+
 typedef enum {
 	META_COMMAND_SUCCESS,
 	META_COMMAND_UNRECOGNIZED_COMMAND
@@ -19,9 +23,15 @@ typedef enum {
 } StatementType;
 
 typedef struct {
-	StatementType type;
-} Statement;
+	uint32_t id;
+	char username[COLUMN_USERNAME_SIZE];
+	char email[COLUMN_EMAIL_SIZE];
+} Row;
 
+typedef struct {
+	StatementType type;
+	Row row_to_insert;	// only used by insert statement
+} Statement;
 
 typedef struct {
 	char *buffer;
