@@ -28,3 +28,12 @@ Sqlite starts with a read-execute-print loop (REPL) when started in terminal. Th
 The front-end of Sqlite is an SQL compiler that parses a string and outputs an internal representation called bytecode. The bytecode is passed to the VM, which executes it. Breaking things into these 2 steps brings some advantages:
 - Reduces complexity
 - Allows comiling common queries once & caching the bytecode for improved performance
+
+
+### In-Memory, Append-Only, Single-Table Database (Step 3)
+
+We'll put some limitations on our database to make it as simple as possible. So it will:
+- support 2 operations: insert a row & print all rows
+- reside only in memory (no persistence to disk)
+- support a single, hard-coded table
+
