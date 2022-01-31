@@ -21,3 +21,10 @@ The ***back-end*** consists of
 ### REPL (Step 1)
 
 Sqlite starts with a read-execute-print loop (REPL) when started in terminal. Therefore, our main function will have an infinte loop that prints the prompt, gets a line of input, which is processes.
+
+
+### Virtual Machine (Step 2)
+
+The front-end of Sqlite is an SQL compiler that parses a string and outputs an internal representation called bytecode. The bytecode is passed to the VM, which executes it. Breaking things into these 2 steps brings some advantages:
+- Reduces complexity
+- Allows comiling common queries once & caching the bytecode for improved performance
