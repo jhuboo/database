@@ -37,3 +37,10 @@ We'll put some limitations on our database to make it as simple as possible. So 
 - reside only in memory (no persistence to disk)
 - support a single, hard-coded table
 
+SQLite uses a B-Tree for fast lookups, inserts & deletes. Our data structure will group rows into pages, but will arrange them like a tree instead of an array for simplicity.
+- Store rows in blocks of memory called pages
+- Each page stores as many rows as it can fit
+- Rows are serialized into a compact representation with each page
+- Pages are only allocated as needed
+- Keep a fixed-sized array of pointers to pages
+
