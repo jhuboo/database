@@ -13,6 +13,7 @@ typedef enum {
 	PREPARE_UNRECOGNIZED_STATEMENT
 } PrepareResult;
 
+
 typedef struct {
 	char *buffer;
 	size_t buffer_length;
@@ -26,6 +27,14 @@ InputBuffer* new_input_buffer() {
 	input_buffer->input_length = 0;
 
 	return input_buffer;
+}
+
+MetaCommandResult do_meta_command(InputBuffer* input_buffer) {
+	if (strcmp(input_buffer->buffer, ".exit") == 0) {
+		exit(EXIT_SUCCESS);
+	} else {
+		return META_COMMAND_UNRECOGNIZED_COMMAND;
+	}
 }
 
 void print_prompt() {
