@@ -12,6 +12,7 @@ The goal of this exercise is to build a simple database.
 - [x] Persistence to Disk
 - [x] The Cursor Abstraction
 - [x] B-Trees
+- [ ] B-Tree Leaf Node Format
 
 ### Usage so far
 
