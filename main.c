@@ -1,7 +1,12 @@
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
+
+typedef enum {
+	EXECUTE_SUCCESS,
+	EXECUTE_TABLE_FULL
+} ExecuteResult;
 
 typedef enum {
 	META_COMMAND_SUCCESS,
@@ -10,6 +15,7 @@ typedef enum {
 
 typedef enum {
 	PREPARE_SUCCESS,
+	PREPARE_SYNTAX_ERROR,
 	PREPARE_UNRECOGNIZED_STATEMENT
 } PrepareResult;
 
