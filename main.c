@@ -1,8 +1,11 @@
+#include <errno.h>
+#include <fcntl.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <unistd.h>
 
 typedef struct {
 	char *buffer;
@@ -69,8 +72,8 @@ typedef struct {
 } Pager;
 
 typedef struct {
-	Pager* pager;
 	uint32_t num_rows;
+	Pager* pager;
 } Table;
 
 
@@ -235,8 +238,8 @@ void db_close(Table* table) {
 }
 
 void free_table(Table* table) {
-	for (int i = 0; table->pages[i]; i++) {
-		free(table->pages[i]);
+	for (int i = 0; pager->pages[i]; i++) {
+		free(pager->pages[i]);
 	}
 	free(table);
 }
@@ -355,9 +358,15 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
 	}
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) 
+{
+	if (argc < 2) {
+		printf("Must supply a database filename.\n");
+		exit(EXIT_FAILURE);
+	}
+	char* filename = argv[1];
+	Table* table = db_open(filename);
 
-	Table* table = new_table();
 	InputBuffer* input_buffer = new_input_buffer();
 	while (true) {
 		print_prompt();
