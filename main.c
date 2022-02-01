@@ -273,11 +273,16 @@ void pager_flush(Pager* pager, uint32_t page_num) {
 
 Table* db_open(const char* filename) {
 	Pager* pager = pager_open(filename);
-	uint32_t num_rows = pager->file_length / ROW_SIZE;
 
 	Table* table = malloc(sizeof(Table));
 	table->pager = pager;
-	table->num_rows = num_rows;
+	table->root_page_num = 0;
+
+	if (pager->num_pages == 0) {
+		// New database file. Initialize page 0 as leaf node.
+		void* root_node = get_page(pager, 0);
+		initialize_leaf_node(root_node);
+	}	
 
 	return table;
 }
