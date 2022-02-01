@@ -237,13 +237,6 @@ void db_close(Table* table) {
 	free(table);
 }
 
-void free_table(Table* table) {
-	for (int i = 0; pager->pages[i]; i++) {
-		free(pager->pages[i]);
-	}
-	free(table);
-}
-
 ssize_t getline(char **lineptr, size_t *n, FILE *stream);
 
 void read_input(InputBuffer* input_buffer) {
