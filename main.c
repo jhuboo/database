@@ -370,11 +370,17 @@ ExecuteResult execute_insert(Statement* statement, Table* table) {
 }
 
 ExecuteResult execute_select(Statement* statement, Table* table) {
+	Cursor* cursor = table_start(table);	
+	
 	Row row;
-	for (uint32_t i = 0; i < table->num_rows; i++) {
-		deserialize_row(row_slot(table, i), &row);
+	while (!(cursor->end_of_table)) {
+		deserialize_row(cursor_value(cursor), &row);
 		print_row(&row);
+		cursor_advance(cursor);
 	}
+
+	free(cursor);
+	
 	return EXECUTE_SUCCESS;
 }
 
