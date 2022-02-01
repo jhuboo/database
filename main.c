@@ -22,6 +22,7 @@ typedef enum {
 
 typedef enum {
 	PREPARE_SUCCESS,
+	PREPARE_STRING_TOO_LONG,
 	PREPARE_SYNTAX_ERROR,
 	PREPARE_UNRECOGNIZED_STATEMENT
 } PrepareResult;
@@ -249,6 +250,9 @@ int main(int argc, char* argv[]) {
 		switch (prepare_statement(input_buffer, &statement)) {
 			case (PREPARE_SUCCESS):
 				break;
+			case (PREPARE_STRING_TOO_LONG):
+				printf("String is too long.\n");
+				continue;
 			case (PREPARE_SYNTAX_ERROR):
 				printf("Syntax error. Could not parse statement.\n");
 			case (PREPARE_UNRECOGNIZED_STATEMENT):
