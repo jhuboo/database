@@ -79,8 +79,8 @@ typedef struct {
 
 void serialize_row(Row* source, void* destination) {
 	memcpy(destination + ID_OFFSET, &(source->id), ID_SIZE);
-	memcpy(destination + USERNAME_OFFSET, &(source->username), USERNAME_SIZE);
-	memcpy(destination + EMAIL_OFFSET, &(source->email), EMAIL_SIZE);
+	strncpy(destination + USERNAME_OFFSET, source->username, USERNAME_SIZE);
+	strncpy(destination + EMAIL_OFFSET, source->email, EMAIL_SIZE);
 }
 
 void deserialize_row(void* source, Row* destination) {
@@ -351,8 +351,8 @@ ExecuteResult execute_statement(Statement* statement, Table* table) {
 	}
 }
 
-int main(int argc, char* argv[]) 
-{
+int main(int argc, char* argv[]) {
+
 	if (argc < 2) {
 		printf("Must supply a database filename.\n");
 		exit(EXIT_FAILURE);
