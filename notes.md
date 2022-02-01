@@ -45,3 +45,8 @@ SQLite uses a B-Tree for fast lookups, inserts & deletes. Our data structure wil
 - Keep a fixed-sized array of pointers to pages
 
 Our pages size is made to be 4 KB so that it's the same size as a page used in the virtual memory systems of most computer architectures. This means that one page in our database corresponds to one page used by the OS. The OS will move pages in & out of memory as whole units instead of breaking them up.
+
+
+### Testing (Step 4)
+
+Since we can now insert rows into the database, and print all the rows, let's start testing. We'll use `rspec`.
