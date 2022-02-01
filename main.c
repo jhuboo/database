@@ -106,12 +106,14 @@ void* row_slot(Table* table, uint32_t row_num) {
 	return page + byte_offset;
 }
 
-Table* new_table() {
+Table* db_open(const char* filename) {
+	Pager* pager = pager_open(filename);
+	uint32_t num_rows = pager->file_length / ROW_SIZE;
+
 	Table* table = malloc(sizeof(Table));
-	table->num_rows = 0;
-	for (uint32_t i = 0; i < TABLE_MAX_PAGES; i++) {
-		table->pages[i] = NULL;
-	}
+	table->pager = pager;
+	table->num_rows = num_rows;
+
 	return table;
 }
 
