@@ -125,6 +125,19 @@ const uint32_t LEAF_NODE_SPACE_FOR_CELLS = PAGE_SIZE - LEAF_NODE_HEADER_SIZE;
 const uint32_t LEAF_NODE_MAX_CELLS =
 		LEAF_NODE_SPACE_FOR_CELLS / LEAF_NODE_CELL_SIZE;
 
+
+void serialize_row(Row* source, void* destination) {
+	memcpy(destination + ID_OFFSET, &(source->id), ID_SIZE);
+	strncpy(destination + USERNAME_OFFSET, source->username, USERNAME_SIZE);
+	strncpy(destination + EMAIL_OFFSET, source->email, EMAIL_SIZE);
+}
+
+void deserialize_row(void* source, Row* destination) {
+	memcpy(&(destination->id), source + ID_OFFSET, ID_SIZE);
+	memcpy(&(destination->username), source + USERNAME_OFFSET, USERNAME_SIZE);
+	memcpy(&(destination->email), source + EMAIL_OFFSET, EMAIL_SIZE);
+}
+
 NodeType get_node_type(void* node) {
 	uint8_t value = *((uint8_t*)(node + NODE_TYPE_OFFSET));
 	return (NodeType)value;
@@ -156,30 +169,6 @@ void initialize_leaf_node(void* node) {
 	*leaf_node_num_cells(node) = 0;
 }
 
-void leaf_node_split_and_insert(Cursor* cursor, uint32_t key, Row* value) {
-	/*
-	Create a new mode and move half the cells over.
-	Insert the new value in one of the two nodes.
-	Update parent or create a new parent
-	*/
-
-	void* old_node = get_page(cursor->table->pager, cursor->page_num);
-	uint32_t new_page_num = get_unused_page_num(cursor->table->pager);
-	void* new_node = get_page(cursor->table->pager, new_page_num);	
-	initialize_leaf_node(new_node);
-}
-
-void serialize_row(Row* source, void* destination) {
-	memcpy(destination + ID_OFFSET, &(source->id), ID_SIZE);
-	strncpy(destination + USERNAME_OFFSET, source->username, USERNAME_SIZE);
-	strncpy(destination + EMAIL_OFFSET, source->email, EMAIL_SIZE);
-}
-
-void deserialize_row(void* source, Row* destination) {
-	memcpy(&(destination->id), source + ID_OFFSET, ID_SIZE);
-	memcpy(&(destination->username), source + USERNAME_OFFSET, USERNAME_SIZE);
-	memcpy(&(destination->email), source + EMAIL_OFFSET, EMAIL_SIZE);
-}
 
 void print_prompt() {
 	printf("db > ");
@@ -355,6 +344,46 @@ void db_close(Table* table) {
 	}
 	free(pager);
 	free(table);
+}
+
+void leaf_node_split_and_insert(Cursor* cursor, uint32_t key, Row* value) {
+	/*
+	Create a new mode and move half the cells over.
+	Insert the new value in one of the two nodes.
+	Update parent or create a new parent
+	*/
+
+	void* old_node = get_page(cursor->table->pager, cursor->page_num);
+	uint32_t new_page_num = get_unused_page_num(cursor->table->pager);
+	void* new_node = get_page(cursor->table->pager, new_page_num);	
+	initialize_leaf_node(new_node);
+	
+	/*
+	All existing keys plus new key should be divided
+	evenly between old (left) and new (right) nodes.
+	Starting from the right, move each key to correct position.
+	*/
+	
+	for (int32_t i = LEAF_NODE_MAX_CELLS; i >= 0; i--) {
+		void* destination_node;
+		if (i >= LEAF_NODE_LEFT_SPLIT_COUNT) {
+			destination_node = new_node;
+		} else {
+			destination_node = old_node;
+		}
+		uint32_t index_within_node = i % LEAF_NODE_LEFT_SPLIT_COUNT;
+		void* destination = leaf_node_cell(destination_node, index_within_node);
+
+		if (i == cursor->cell_num) {
+			serialize_row(value, destination);	
+		} else if (i > cursor->cell_num) {
+			memcpy(destination, leaf_node_cell(old_node, i - 1), 
+				LEAF_NODE_CELL_SIZE);
+		} else {
+			memcpy(destination, leaf_node_cell(old_node, i),
+				LEAF_NODE_CELL_SIZE);
+		}
+	}
 }
 
 void leaf_node_insert(Cursor* cursor, uint32_t key, Row* value) {
