@@ -123,9 +123,14 @@ A B+Tree grows when elements are inserted into it. To keep things simple, the tr
 Wikiepdia Link to [B+Trees](https://en.wikipedia.org/wiki/B%2B_tree)
 
 
-### B-Tree Leaf Node Format
+### B-Tree Leaf Node Format (Step 8)
 
 We're changing the format of our table from an unsorted array of rows to a B-Tree. The reasons for switching to a tree structure are:
 - With the current format, each page stores only rows (no metadata) so it's pretty space efficient. Insertion is also fast because we just append to the end. However, finding a particular row can only be done by scanning the entire table. If we want to delete a row, we have to fill in the hole by moving every row that comes after it.
 - If we stored the table as an array, but kept rows sorted by id, we could use binary search to find a particular id. However, insertion would be slow because we would have to move a lot of rows to make space.
 - Instead with a tree structure, each row in the table can contain a varialbe no of rows, so we have to stome information in each node to keep track of how many rows it contains. Plus there is the storage overhead of all the internal nodes which don't store any rows. In exchange for a larger database, we get fast insertion, deletion and lookup.
+
+
+### Binary Search and Duplicate Keys (Step 9)
+
+We will now store keys in a sorted order, and detect and reject duplicate keys.

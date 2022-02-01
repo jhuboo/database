@@ -12,23 +12,28 @@ The goal of this exercise is to build a simple database.
 - [x] Persistence to Disk
 - [x] The Cursor Abstraction
 - [x] B-Trees
-- [ ] B-Tree Leaf Node Format
+- [x] B-Tree Leaf Node Format
+- [ ] Binary Search and Duplicate Keys
 
 ### Usage so far
 
 ```
-~ ./db my_database.db
+~ ./db database.db
 db > insert 1 math name@email.com
 Executed.
 db > insert 2 physics foo@bar.org
 Executed.
 db > .exit
 
-~ ./db my_database.db
+~ ./db database.db
 db > select
 (1, math, name@email.com)
 (2, physics, foo@bar.com)
 Executed.
+
+~ ./db database.db
+db > .constants
+db > .btree
 
 db > insert foo bar 3
 Syntax Error. Could not parse statement.
