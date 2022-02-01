@@ -74,3 +74,51 @@ Behaviours to implement for the cursor:
 - Modify the row pointed by the cursor
 - Search a table for a given ID, and create a cursor pointing to that row with that ID
 
+
+### B-Tree (Step 7)
+
+SQLite uses a B-Tree data structure to represent both tables and indexes. 
+
+Why is a tree a good data structure for a database?
+- Searching for a particular value is fast in Log(n)
+- Inserting / deleting a value that you've already foudn is fast (constant-ish time to rebalance)
+- Traversing a range of values is fast (unlike a hash map)
+
+A B-Tree is different from a binary tree. Unlike a binary tree, each node in a B-Tree can have more than 2 children. Each node can have up to `m` children, where `m` is called the tree's order. To keep the tree mostly balanced, the nodes have to be at least m/2 children (rounded up).
+
+Exceptions:
+- Leaf nodes have 0 children
+- The root node can have fewer than m children but must have at least 2
+- If the root node is a leaf node (the only node, it still has 0 children
+
+
+There are B-tree (Bee Trees) and B+trees (Bee Plus Trees).
+
+| 				| B-Tree 	| B+ Trees 		|
+| ------------- 		| ------ 	| -------- 		|
+| Used to Store 		| Indexes 	| Tables   		|
+| Internal nodes store keys 	| Yes 		| Yes			|
+| Internal nodes store values 	| Yes 		| No			|
+| No of children per node 	| Less 		| More			|
+| Internal nodes vs leaf nodes 	| Same structure | Different structure	|
+
+We'll be using B+Trees (btree)
+
+Nodes with children are called "internal" nodes. Internal nodes and leaf nodes are structured differently.
+
+| For an order-m tree		| Internal Node			| Leaf Node	|
+| ------------- 		| ------ 			| -------- 	|
+| Stores	 		| Keys & ptrs to children 	| Keys & values |
+| Number of ptrs		| no of keys + 1 		| none		|
+| Number of values		| none		 		| no of keys	|
+| key purpose			| used for routing 		| paired with value |
+| Stores values? 		| No 				| Yes 		|
+
+A B+Tree grows when elements are inserted into it. To keep things simple, the tree will be order 3, which means:
+- Up to 3 children per internal node
+- up to 2 keys per internal node
+- at least 2 children per internal node
+- at least 1 key per internal node
+
+Wikiepdia Link to [B+Trees](https://en.wikipedia.org/wiki/B%2B_tree)
+

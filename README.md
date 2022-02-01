@@ -10,7 +10,8 @@ The goal of this exercise is to build a simple database.
 - [x] Add In-Memory, Append-Only, Single-Table Database
 - [x] Add Tests (for Bugs)
 - [x] Persistence to Disk
-- [ ] The Cursor Abstraction
+- [x] The Cursor Abstraction
+- [x] B-Trees
 
 ### Usage so far
 
