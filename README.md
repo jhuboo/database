@@ -8,7 +8,8 @@ The goal of this exercise is to build a simple database.
 - [x] Set up a REPL
 - [x] Add a simple SQL compiler & Virtual Machine
 - [x] Add In-Memory, Append-Only, Single-Table Database
-- [ ] Add Tests (for Bugs)
+- [x] Add Tests (for Bugs)
+- [ ] Persistence to Disk
 
 ### Usage so far
 
