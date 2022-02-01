@@ -144,6 +144,13 @@ void* cursor_value(Cursor* cursor) {
 	return page + byte_offset;
 }
 
+void cursor_advance(Cursor* cursor) {
+	cursor->row_num += 1;
+	if (cursor->row_num >= cursor->table->num_rows) {
+		cursor->end_of_table = true;
+	}
+}
+
 
 Pager* pager_open(const char* filename) {
 	int fd = open(filename,
@@ -245,7 +252,7 @@ void db_close(Table* table) {
 }
 
 Cursor* table_start(Table* table) {
-	Cusror* cursor = malloc(sizeof(Cursor));
+	Cursor* cursor = malloc(sizeof(Cursor));
 	cursor->table = table;
 	cursor->row_num = 0;
 	cursor->end_of_table = (table->num_rows == 0);
@@ -254,7 +261,7 @@ Cursor* table_start(Table* table) {
 }
 
 Cursor* table_end(Table* table) {
-	Cusror* cursor = malloc(sizeof(Cursor));
+	Cursor* cursor = malloc(sizeof(Cursor));
 	cursor->table = table;
 	cursor->row_num = table->num_rows;
 	cursor->end_of_table = true;
