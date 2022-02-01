@@ -384,6 +384,17 @@ void leaf_node_split_and_insert(Cursor* cursor, uint32_t key, Row* value) {
 				LEAF_NODE_CELL_SIZE);
 		}
 	}
+
+	/* Update cell count on both leaf nodes */
+	*(leaf_node_num_cells(old_node)) = LEAF_NODE_LEFT_SPLIT_COUNT;
+	*(leaf_node_num_cells(new_node)) = LEAF_NODE_RIGHT_SPLIT_COUNT;
+
+	if (is_node_root(old_node)) {
+		return create_new_root(cursor->table, new_page_num);
+	} else {
+		printf("Need to implement updating parent after split\n");
+		exit(EXIT_FAILURE);
+	}
 }
 
 void leaf_node_insert(Cursor* cursor, uint32_t key, Row* value) {
