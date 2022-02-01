@@ -140,10 +140,10 @@ void* row_slot(Table* table, uint32_t row_num) {
 
 Pager* pager_open(const char* filename) {
 	int fd = open(filename,
-			O_RDWR |	// Read/Write mode
-			O_CREAT |	// Create file if it doesn't exist
-			S_IWUSR |	// User writer permission
-			S_IRUSR);	// User read permission
+			O_RDWR |		// Read/Write mode
+				O_CREAT,	// Create file if it doesn't exist
+			S_IWUSR |		// User writer permission
+				S_IRUSR);	// User read permission
 
 	if (fd == -1) {
 		printf("Unable to open file\n");
