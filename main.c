@@ -14,6 +14,11 @@ typedef struct {
 } InputBuffer;
 
 typedef enum {
+	NODE_INTERNAL,
+	NODE_LEAF
+} NodeType;
+
+typedef enum {
 	EXECUTE_SUCCESS,
 	EXECUTE_TABLE_FULL
 } ExecuteResult;
