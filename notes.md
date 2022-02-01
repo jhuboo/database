@@ -51,6 +51,7 @@ Our pages size is made to be 4 KB so that it's the same size as a page used in t
 
 Since we can now insert rows into the database, and print all the rows, let's start testing. We'll use `rspec`.
 
+
 ### Persistence to Disk (Step 5)
 
 Like SQLite, we're going to persist records by saving the entire database to a file. We have already set up to do that by serializing rows into page-size memory blocks. We can now write those blocks of memory to a file to add persistence. We read them back into memory the next time the program starts up.
@@ -58,3 +59,18 @@ Like SQLite, we're going to persist records by saving the entire database to a f
 We build an abstraction called the pager to make things easier. When we ask the pager for page no x, it gives us back a block of memory. It first look in its cache. On a cache miss, it copies data from disk into memory (by reading the database file).
 
 The Pager access the page cache and the file. The Table object makes request for pages through the pager.
+
+
+### The Cursor Abstraction (Step 6)
+
+Goals here are to refactor a bit to start implementing the B-Tree, and to add a Cursor object which represents a location in the table. The cursor can:
+- Create a cursor at the beginning of the file
+- Create a cursor at the end of the file
+- Access the row the cursor is pointing to
+- Advance the cursor to the next row
+
+Behaviours to implement for the cursor:
+- Delete the row pointed to by the cursor
+- Modify the row pointed by the cursor
+- Search a table for a given ID, and create a cursor pointing to that row with that ID
+
