@@ -243,6 +243,24 @@ void db_close(Table* table) {
 	free(table);
 }
 
+Cursor* table_start(Table* table) {
+	Cusror* cursor = malloc(sizeof(Cursor));
+	cursor->table = table;
+	cursor->row_num = 0;
+	cursor->end_of_table = (table->num_rows == 0);
+
+	return cursor;
+}
+
+Cursor* table_end(Table* table) {
+	Cusror* cursor = malloc(sizeof(Cursor));
+	cursor->table = table;
+	cursor->row_num = table->num_rows;
+	cursor->end_of_table = true;
+
+	return cursor;
+}
+
 ssize_t getline(char **lineptr, size_t *n, FILE *stream);
 
 void read_input(InputBuffer* input_buffer) {
