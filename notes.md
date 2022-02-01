@@ -134,3 +134,10 @@ We're changing the format of our table from an unsorted array of rows to a B-Tre
 ### Binary Search and Duplicate Keys (Step 9)
 
 We will now store keys in a sorted order, and detect and reject duplicate keys.
+
+
+### Splitting a Leaf Node (Step 10)
+
+We need to modify our B+Tree since it only has one node right now. To fix that, we need some code to split a leaf node in two. After that, we need to create an internal node to serve as a parent for the two leaf nodes.
+
+

@@ -13,7 +13,8 @@ The goal of this exercise is to build a simple database.
 - [x] The Cursor Abstraction
 - [x] B-Trees
 - [x] B-Tree Leaf Node Format
-- [ ] Binary Search and Duplicate Keys
+- [x] Binary Search and Duplicate Keys
+- [ ] Splitting a Leaf Node
 
 ### Usage so far
 
