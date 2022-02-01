@@ -16,6 +16,7 @@ typedef struct {
 
 typedef enum {
 	EXECUTE_SUCCESS,
+	EXECUTE_DUPLICATE_KEY,
 	EXECUTE_TABLE_FULL
 } ExecuteResult;
 
@@ -142,6 +143,7 @@ void* leaf_node_value(void* node, uint32_t cell_num) {
 }
 
 void initialize_leaf_node(void* node) {
+	set_node_type(node, NODE_LEAF);
 	*leaf_node_num_cells(node) = 0;
 }
 
@@ -618,6 +620,9 @@ int main(int argc, char* argv[]) {
 		switch(execute_statement(&statement, table)) {
 			case (EXECUTE_SUCCESS):
 				printf("Executed.\n");
+				break;
+			case (EXECUTE_DUPLICATE_KEY):
+				printf("Error: Duplicate key.\n");
 				break;
 			case (EXECUTE_TABLE_FULL):
 				printf("Error: Table full.\n");
