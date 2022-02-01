@@ -140,4 +140,5 @@ We will now store keys in a sorted order, and detect and reject duplicate keys.
 
 We need to modify our B+Tree since it only has one node right now. To fix that, we need some code to split a leaf node in two. After that, we need to create an internal node to serve as a parent for the two leaf nodes.
 
-
+***Splitting Algorithm***
+If there is no space on the leaf node, we would split the existing entries residing there an the new one (being inserted) into two equal halves: lower, and upper halves. (Keys on the upper half are strictly greater than those on the lower half.) We allocate a new leaf node, and move the upper half into the new node.
