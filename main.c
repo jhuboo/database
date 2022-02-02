@@ -172,6 +172,16 @@ void set_node_type(void* node, NodeType type) {
 	*((uint8_t*)(node + NODE_TYPE_OFFSET)) = value;
 }
 
+bool is_node_root(void* node) {
+	uint8_t value = *((uint8_t*)(node + IS_ROOT_OFFSET));
+	return (bool)value;
+}
+
+void set_node_root(void* node, bool is_root) {
+	uint8_t value = is_root;
+	*((uint8_t*)(node + IS_ROOT_OFFSET)) = value;
+}
+
 uint32_t* internal_node_num_keys(void* node) {
 	return node + INTERNAL_NODE_NUM_KEYS_OFFSET;
 }
