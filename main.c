@@ -346,6 +346,9 @@ void db_close(Table* table) {
 	free(table);
 }
 
+const uint32_t LEAF_NODE_RIGHT_SPLIT_COUNT = (LEAF_NODE_MAX_CELLS + 1) / 2;
+const uint32_t LEAF_NODE_LEFT_SPLIT_COUNT = 
+		(LEAF_NODE_MAX_CELLS + 1) - LEAF_NODE_RIGHT_SPLIT_COUNT;
 /*
 Until we start recyling free pages, new pages will always
 go onto the end of the database file
