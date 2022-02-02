@@ -89,7 +89,7 @@ typedef enum {
 } NodeType;
 
 /*
- * Common Node Header Layout
+ Common Node Header Layout
  */
 
 
@@ -103,7 +103,7 @@ const uint32_t COMMON_NODE_HEADER_SIZE =
 		NODE_TYPE_SIZE + IS_ROOT_SIZE + PARENT_POINTER_SIZE;
 
 /*
- * Leaf Node Header Layout
+ Leaf Node Header Layout
  */
 
 const uint32_t LEAF_NODE_NUM_CELLS_SIZE = sizeof(uint32_t);
@@ -112,7 +112,7 @@ const uint32_t LEAF_NODE_HEADER_SIZE =
 		COMMON_NODE_HEADER_SIZE + LEAF_NODE_NUM_CELLS_SIZE;
 
 /*
- * Leaf Node Body Layout
+ Leaf Node Body Layout
  */
 
 const uint32_t LEAF_NODE_KEY_SIZE = sizeof(uint32_t);
@@ -128,7 +128,7 @@ const uint32_t LEAF_NODE_LEFT_SPLIT_COUNT =
 		(LEAF_NODE_MAX_CELLS + 1) - LEAF_NODE_RIGHT_SPLIT_COUNT;
 
 /*
- * Internal Node Header Layout
+ Internal Node Header Layout
  */
 
 const uint32_t INTERNAL_NODE_NUM_KEYS_SIZE = sizeof(uint32_t);
@@ -139,6 +139,16 @@ const uint32_t INTERNAL_NODE_RIGHT_CHILD_OFFSET = INTERNAL_NODE_NUM_KEYS_OFFSET 
 const uint32_t INTERNAL_NODE_HEADER_SIZE = COMMON_NODE_HEADER_SIZE +
 					   INTERNAL_NODE_NUM_KEYS_SIZE +
 					   INTERNAL_NODE_RIGHT_CHILD_SIZE;
+
+/*
+ Internal Node Body Layout
+ */
+
+const uint32_t INTERNAL_NODE_KEY_SIZE = sizeof(uint32_t);
+const uint32_t INTERNAL_NODE_CHILD_SIZE = sizeof(uint32_t);
+const uint32_t INtERNAL_NODE_CELL_SIZE = INTERNAL_NODE_CHILD_SIZE +
+					 INTERNAL_NODE_KEY_SIZE;
+
 
 void serialize_row(Row* source, void* destination) {
 	memcpy(destination + ID_OFFSET, &(source->id), ID_SIZE);
