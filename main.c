@@ -239,10 +239,15 @@ void* leaf_node_value(void* node, uint32_t cell_num) {
 }
 
 void initialize_leaf_node(void* node) {
-	set_node_type(node, NODE_LEAF);
+	set_node_root(node, false);
 	*leaf_node_num_cells(node) = 0;
 }
 
+void initialize_internal_node(void* node) {
+	set_node_type(node, NODE_INTERNAL);
+	set_node_root(node, false);
+	*internal_node_num_keys(node) = 0;
+}
 
 void print_prompt() {
 	printf("db > ");
@@ -482,6 +487,7 @@ Table* db_open(const char* filename) {
 		// New database file. Initialize page 0 as leaf node.
 		void* root_node = get_page(pager, 0);
 		initialize_leaf_node(root_node);
+		set_node_root(root_node, true);
 	}	
 
 	return table;
