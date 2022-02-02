@@ -346,6 +346,14 @@ void db_close(Table* table) {
 	free(table);
 }
 
+/*
+Until we start recyling free pages, new pages will always
+go onto the end of the database file
+*/
+uint32_t get_unused_page_num(Pager* pager) {
+	return pager->num_pages;
+}
+
 void leaf_node_split_and_insert(Cursor* cursor, uint32_t key, Row* value) {
 	/*
 	Create a new mode and move half the cells over.
