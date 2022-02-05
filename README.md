@@ -2,6 +2,7 @@
 
 Author: Anvesh G. Jhuboo
 Date: 31 Jan 2022
+Inspired by the work done [here](https://cstack.github.io/db_tutorial/)
 
 The goal of this exercise is to build a simple database.
 
